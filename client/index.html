@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <script src="/bower_components/angular/angular.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="/css/styles.css"/>
+    </head>
+    <body>
+      <div ng-app="erg">
+        <div ng-controller="MainCtrl as main">
+          <div ng-hide="main.isAuthenticated"
+            ng-controller="LoginFormCtrl as loginForm">
+            Enter username: <input ng-model="loginForm.username"/><br/>
+            Password: <input type="password" ng-model="loginForm.password"/><br/>
+            <button ng-click="main.login(loginForm.username, loginForm.password)">Login</button>
+            <br/>
+            <span ng-show="main.errorMessage">*** {{main.errorMessage}} ***</span>
+          </div>
+          <div ng-show="main.isAuthenticated" ng-controller="TaskListCtrl as taskList">
+            Hello, {{main.username}}!
+            You've got {{taskList.tasks.length}} tasks<br/>
+
+            <input ng-model="taskList.newTaskDescription"/>
+            <button ng-click="taskList.addTask(main.username, taskList.newTaskDescription)">Add task</button>
+
+            <table>
+              <tr ng-repeat="task in taskList.tasks">
+                <td>{{task.owner}}</td>
+                <td>{{task.description}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <script src="/app/app.js"></script>
+      <script src="/app/components/main/main-controller.js"></script>
+      <script src="/app/components/login-form/login-form-controller.js"></script>
+      <script src="/app/sections/tasks/tasks-controller.js"></script>
+    </body>
+  </html>
